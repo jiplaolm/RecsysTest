@@ -14,6 +14,20 @@ data(MovieLense)
 # Preview data
 head(as(MovieLense,"data.frame"))
 image(MovieLense, main = "Raw Ratings")
+
+
+## look at the first few ratings of the first user
+as(MovieLense[1,], "list")[[1]][1:10]
+## visualize part of the matrix
+image(MovieLense[1:100,1:100])
+
+## number of ratings per user
+hist(rowCounts(MovieLense),main="Ratings per user", xlab="Number of ratings")
+## number of ratings per movie
+hist(colCounts(MovieLense),main="Ratings per movie", xlab="Number of ratings")
+## mean rating (averaged over users)
+mean(rowMeans(MovieLense))
+    
 ```
 
 
