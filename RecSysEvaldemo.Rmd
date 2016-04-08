@@ -1,0 +1,19 @@
+---
+title: "RecSys Evaluation Demo"
+author: "Mikel Larrañaga"
+date: "8 de abril de 2016"
+output: html_document
+---
+
+Agiri honetan gomendio sistema ezberdinak (algoritmo ezberdinak) nola konpara daitezken 
+adierazten da.
+
+```{r setup, warning=F,message=F}
+library(recommenderlab)
+data(MovieLense)
+# Preview data
+head(as(MovieLense,"data.frame"))
+image(MovieLense, main = "Raw Ratings")
+```
+
+
