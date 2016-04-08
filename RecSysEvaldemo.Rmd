@@ -11,6 +11,11 @@ adierazten da.
 ```{r setup, warning=F,message=F}
 library(recommenderlab)
 data(MovieLense)
+```
+
+Gomendio sistemak eraikitzen eta ebaluatzen hasi aurretik, dataset-ean daukagun informazioa aztertu eta bistaratu.
+
+```{r previewData}
 # Preview data
 head(as(MovieLense,"data.frame"))
 image(MovieLense, main = "Raw Ratings")
@@ -20,6 +25,7 @@ image(MovieLense, main = "Raw Ratings")
 as(MovieLense[1,], "list")[[1]][1:10]
 ## visualize part of the matrix
 image(MovieLense[1:100,1:100])
+image(MovieLense[1:5,1:10])
 
 ## number of ratings per user
 hist(rowCounts(MovieLense),main="Ratings per user", xlab="Number of ratings")
@@ -27,7 +33,55 @@ hist(rowCounts(MovieLense),main="Ratings per user", xlab="Number of ratings")
 hist(colCounts(MovieLense),main="Ratings per movie", xlab="Number of ratings")
 ## mean rating (averaged over users)
 mean(rowMeans(MovieLense))
-    
+# Hist of ratings
+hist(getRatings(MovieLense), breaks=10, main = "Rating distribution in MovieLense", xlab="Rating")
+
+# Hist of ratings normalised
+hist(getRatings(normalize(MovieLense,method="Z-score")), breaks=10, main = "Rating distribution in MovieLense", xlab="Normalised rating")
 ```
 
+Alderatuko ditugun algoritmoak definitu:
+
+```{r algorithms}
+# Emaitza berdinak lortu ahal izateko
+set.seed(2016)
+
+# Algoritmoak zehaztu
+algorithms <- list(
+  "random items" = list(name="RANDOM", param=NULL),
+  "popular items" = list(name="POPULAR", param=NULL),
+  "user-based CF" = list(name="UBCF", param=list(nn=50)),
+  "item-based CF" = list(name="IBCF", param=list(k=50)),
+  "SVD approximation" = list(name="SVD", param=list(approxRank = 50))
+  )
+
+## Ebaluazioa azpimultzoa sortu
+eval.set <- MovieLense
+eval.set <- subset(eval.set, rowCounts(eval.set)>50)
+# Ebaluazioa prozedura definitu
+eval.scheme <- evaluationScheme(eval.set[1:300], method = "split",train=.9, k = 1, given = 5, goodRating=3)
+```
+
+# Accurary metrics evaluation
+
+Ebaluatu algoritmoak errorearen arabera
+
+``` {r accuracyMetrics}
+
+eval.scheme
+eval.results <- evaluate(eval.scheme,algorithms, type="ratings")
+plot(eval.results)
+```
+
+
+# Decision metrics evaluation
+
+Ebaluatu algoritmoak errorearen arabera
+
+``` {r decisionyMetrics}
+
+eval.scheme
+eval.results <- evaluate(eval.scheme,algorithms, type="topNList", n = c(1, 3, 5, 10, 15, 20))
+plot(eval.results, annotate=T)
+```
 
