@@ -8,6 +8,16 @@ Source: CRAN
 Version: 0.12.4
 Hash: 115167d29098a4fd1e572fdbef809438
 
+Package: arules
+Source: CRAN
+Version: 1.4-0
+Hash: 43ce429c6fe7a8edf75f6473ae8c3939
+
+Package: bcv
+Source: CRAN
+Version: 1.0.1
+Hash: e76887f812a30d6420ae6e399319b859
+
 Package: bitops
 Source: CRAN
 Version: 1.0-6
@@ -72,6 +82,22 @@ Package: packrat
 Source: CRAN
 Version: 0.4.6-1
 Hash: 29eacc43b096c5b1a82c8d54a49b030b
+
+Package: proxy
+Source: CRAN
+Version: 0.4-15
+Hash: b61fe2c7b51605228dccaa67d9539b8d
+
+Package: recommenderlab
+Source: CRAN
+Version: 0.1-8
+Hash: b910e5bbe45ca25ebed2d9457e0766c2
+Requires: arules, bcv, proxy, registry
+
+Package: registry
+Source: CRAN
+Version: 0.3
+Hash: f9447c26b51b8c96f53720c5ff862c93
 
 Package: rmarkdown
 Source: CRAN
