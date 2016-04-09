@@ -59,7 +59,7 @@ algorithms <- list(
 eval.set <- MovieLense
 eval.set <- subset(eval.set, rowCounts(eval.set)>50)
 # Ebaluazioa prozedura definitu
-eval.scheme <- evaluationScheme(eval.set[1:300], method = "split",train=.9, k = 1, given = 5, goodRating=3)
+eval.scheme <- evaluationScheme(eval.set[1:300], method = "split",train=.9, k = 1, given = -5, goodRating=3)
 ```
 
 # Accurary metrics evaluation
@@ -76,12 +76,23 @@ plot(eval.results)
 
 # Decision metrics evaluation
 
-Ebaluatu algoritmoak errorearen arabera
+Ebaluatu algoritmoen proposamenen arabera
 
-``` {r decisionyMetrics}
+
+
+## Area under the ROC
+
+``` {r decisionyMetricsROC}
 
 eval.scheme
 eval.results <- evaluate(eval.scheme,algorithms, type="topNList", n = c(1, 3, 5, 10, 15, 20))
 plot(eval.results, annotate=T)
 ```
 
+## Precision-Recall
+
+``` {r decisionyMetricsPR}
+
+
+plot(eval.results,"prec/rec", annotate=T)
+```
